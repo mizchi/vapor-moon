@@ -455,17 +455,19 @@ fn is_identifier_literal(source : String) -> Bool {
   if source.length() == 0 {
     return false
   }
-  let first = source[0].to_int()
-  if not(
-      (first >= 0x61 && first <= 0x7A) ||
-      (first >= 0x41 && first <= 0x5A) ||
-      first == 0x5F ||
-      first == 0x24,
-    ) {
-    return false
-  }
-  for i in 1..<source.length() {
-    if not(is_identifier_charcode(source[i].to_int())) {
+  let mut first = true
+  for ch in source {
+    if first {
+      if not(
+          (ch >= 'a' && ch <= 'z') ||
+          (ch >= 'A' && ch <= 'Z') ||
+          ch == '_' ||
+          ch == '$',
+        ) {
+        return false
+      }
+      first = false
+    } else if not(is_identifier_char(ch)) {
       return false
     }
   }
@@ -473,12 +475,12 @@ fn is_identifier_literal(source : String) -> Bool {
 }
 
 ///|
-fn is_identifier_charcode(c : Int) -> Bool {
-  (c >= 0x61 && c <= 0x7A) ||
-  (c >= 0x41 && c <= 0x5A) ||
-  (c >= 0x30 && c <= 0x39) ||
-  c == 0x5F ||
-  c == 0x24
+fn is_identifier_char(c : Char) -> Bool {
+  (c >= 'a' && c <= 'z') ||
+  (c >= 'A' && c <= 'Z') ||
+  (c >= '0' && c <= '9') ||
+  c == '_' ||
+  c == '$'
 }
 
 ///|

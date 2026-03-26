@@ -35,11 +35,11 @@ pub fn pascal_case(name : String) -> String {
     if part.length() == 0 {
       continue
     }
-    let first = part[0].to_int()
-    let upper = if first >= 0x61 && first <= 0x7A {
-      (first - 0x61 + 0x41).unsafe_to_char()
+    let first_code = part[0].to_int()
+    let upper = if first_code >= 'a'.to_int() && first_code <= 'z'.to_int() {
+      (first_code - 'a'.to_int() + 'A'.to_int()).unsafe_to_char()
     } else {
-      first.unsafe_to_char()
+      first_code.unsafe_to_char()
     }
     sb.write_char(upper)
     if part.length() > 1 {
